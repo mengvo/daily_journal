@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Journal Tracker</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('/static/images/img1.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            filter: blur(2px);
+            z-index: -1;
+        }
+
+        .signup-container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            z-index: 1;
+        }
+
+        .signup-container h1 {
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            color: #333;
+            text-align: center;
+        }
+
+        .signup-form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .signup-form label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .signup-form input {
+            padding: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            color: #333;
+        }
+
+        .signup-form input:focus {
+            outline: none;
+            border-color: #28a745;
+            box-shadow: 0 0 5px rgba(40, 167, 69, 0.3);
+        }
+
+        .signup-form button {
+            padding: 0.8rem;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .signup-form button:hover {
+            background-color: #218838;
+        }
+
+        .signup-footer {
+            margin-top: 1rem;
+            text-align: center;
+            color: #555;
+        }
+
+        .signup-footer a {
+            color: #28a745;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-footer a:hover {
+            text-decoration: underline;
+        }
+
+        .error-messages {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            border: 1px solid #f5c6cb;
+            z-index: 9999;
+            width: 80%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+
+        .error-messages ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .error-message {
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #721c24;
+            cursor: pointer;
+        }
+        .close-btn:hover {
+            color: #a71d2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="background"></div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="error-messages">
+                <button class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="error-message">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="signup-container">
+        <h1>Create an Account</h1>
+        <form class="signup-form" action="/signup" method="POST">
+            {{ form.hidden_tag() }}
+
+            <label for="name">Username</label>
+            {{ form.username(class_='form-control', placeholder='Enter a username') }}
+            {% if form.username.errors %}
+                <div class="error-message">{{ form.username.errors[0] }}</div>
+            {% endif %}
+            
+            <label for="email">Email Address</label>
+            {{ form.email(class_='form-control', placeholder='Enter your email') }}
+            {% if form.email.errors %}
+                <div class="error-message">{{ form.email.errors[0] }}</div>
+            {% endif %}
+            
+            <label for="password">Password</label>
+            {{ form.password(class_='form-control', placeholder='Create a password') }}
+            {% if form.password.errors %}
+                <div class="error-message">{{ form.password.errors[0] }}</div>
+            {% endif %}
+            
+            <label for="confirm-password">Confirm Password</label>
+            {{ form.confirm_password(class_='form-control', placeholder='Confirm your password') }}
+            {% if form.confirm_password.errors %}
+                <div class="error-message">{{ form.confirm_password.errors[0] }}</div>
+            {% endif %}
+            
+            <button type="submit">Sign Up</button>
+        </form>
+        <div class="signup-footer">
+            <p>Already have an account? <a href="/login">Log in</a></p>
+        </div>
+    </div>
+</body>
+</html>

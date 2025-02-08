@@ -1,0 +1,137 @@
+<style>
+  body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('/static/images/img1.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      filter: blur(2px);
+      z-index: -1;
+  }
+
+  .form-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+      z-index: 1;
+  }
+
+  .form-container h1 {
+      margin-bottom: 1rem;
+      font-size: 1.8rem;
+      color: #333;
+      text-align: center;
+  }
+
+  .form {
+      display: flex;
+      flex-direction: column;
+  }
+
+  .form label {
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #555;
+  }
+
+  .form input,
+  .form textarea {
+      padding: 0.8rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+      color: #333;
+      width: 100%;
+  }
+
+  .form textarea {
+    resize: none;
+    height: 50vh;
+  }
+
+  .form input:focus,
+  .form textarea:focus {
+      outline: none;
+      border-color: #007bff;
+      box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+  }
+
+  .form button {
+      padding: 0.8rem;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background-color 0.3s;
+  }
+
+  .form button:hover {
+      background-color: #0056b3;
+  }
+
+  .error-message {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 0px;
+      margin-bottom: 15px;
+  }
+
+  .back-to-settings {
+      margin-top: 2rem;
+      text-align: center;
+  }
+
+  .back-to-settings a {
+      color: #007bff;
+      text-decoration: none;
+      font-weight: bold;
+  }
+
+  .back-to-settings a:hover {
+      text-decoration: underline;
+  }
+</style>
+
+{% block content %}
+  <div class="background"></div>
+  
+  <div class="form-container">
+    <h1>Write Journal Entry</h1>
+    <form class="form" method="POST">
+      {{ form.hidden_tag() }}
+
+      <label for="entry">How did you feel today, what was the highlight or challenge, 
+                          what have you accomplished, and what are you grateful for or learned?</label>
+      {{ form.entry(class_='form-control', placeholder='Write here!') }}
+      {% if form.entry.errors %}
+        <div class="error-message">{{ form.entry.errors[0] }}</div>
+      {% endif %}
+
+      <button type="submit">Submit</button>
+
+      <div class="back-to-settings">
+        <a href="/dashboard">Back to Dashboard</a>
+      </div>
+    </form>
+  </div>
+{% endblock %}
